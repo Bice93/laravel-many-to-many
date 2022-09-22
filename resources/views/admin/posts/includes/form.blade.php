@@ -19,6 +19,18 @@
 </div>
 
 <div class="mb-3">
+    <label for="input-tags" class="form-label d-block">Tags</label>
+    @foreach ($tags as $tag)
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" value="{{ $tag->id }}" name="tags[]" id="input-tags">
+            <label class="form-check-label" for="input-tags">
+                {{ $tag->name }}
+            </label>
+        </div>
+    @endforeach
+</div>
+
+<div class="mb-3">
     <label for="input-image" class="form-label">Image</label>
     <input type="text" name="post_image" value="{{ old('image_url', $post->post_image) }}" class="form-control"
         id="input-image">

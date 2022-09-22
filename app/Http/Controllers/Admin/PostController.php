@@ -46,7 +46,8 @@ class PostController extends Controller
     {
         $post = new Post();
         $categories = Category::all();
-        return view('admin.posts.create', compact('post', 'categories'));
+        $tags = Tag::all();
+        return view('admin.posts.create', compact('post', 'categories', 'tags'));
     }
 
     /**
@@ -67,7 +68,8 @@ class PostController extends Controller
         $newPost->post_date= new DateTime();
         //dd($newPost);
         $newPost-> save();
-
+        $newPost->tags()->sync($data['tags']);
+        
         return redirect()->route('admin.posts.show', $newPost->id)->with('created', $data['title']);
     }
 
@@ -93,7 +95,8 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
         $categories = Category::all();
-        return view('admin.posts.edit', compact('post', 'categories'));
+        $tags = Tag::all();
+        return view('admin.posts.edit', compact('post', 'categories', 'tags'));
     }
 
     /**
