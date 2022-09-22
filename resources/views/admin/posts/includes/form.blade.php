@@ -22,7 +22,13 @@
     <label for="input-tags" class="form-label d-block">Tags</label>
     @foreach ($tags as $tag)
         <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" value="{{ $tag->id }}" name="tags[]" id="input-tags">
+            <input 
+            class="form-check-input" 
+            type="checkbox" 
+            value="{{ $tag->id }}" 
+            name="tags[]" 
+            id="input-tags"
+            {{ $post->tags->contains($tag) ? 'checked' : '' }}>
             <label class="form-check-label" for="input-tags">
                 {{ $tag->name }}
             </label>

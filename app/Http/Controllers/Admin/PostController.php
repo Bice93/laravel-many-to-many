@@ -116,6 +116,7 @@ class PostController extends Controller
         $post->post_image = $data['post_image'];
         $post->user_id = Auth::id();
         $post->post_date= new DateTime();
+        $post->tags()->sync($data['tags']);
         //dd($post);
         $post->save();
          return redirect()->route('admin.posts.show', $post->id)->with('edited', $data['title']);
