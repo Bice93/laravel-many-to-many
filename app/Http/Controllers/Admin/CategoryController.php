@@ -40,8 +40,8 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $data['slug'] = Str::slug($data['name'], '-');
         $newCategory = new Category();
+        $data['slug'] = Str::slug($data['name'], '-');
         $newCategory->fill($data);
         $newCategory->save();
         return redirect()->route('admin.categories.index');
@@ -81,7 +81,12 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
-        return redirect()->route('admin.categories.show', compact('id'));
+        $data['slug'] = Str::slug($data['name'], '-');
+        $category = Category::findOrFail($id);
+        $category->fill($data);
+        $category->save();
+
+        return redirect()->route('admin.categories.show', compact('category'));
     }
 
     /**

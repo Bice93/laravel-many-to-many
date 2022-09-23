@@ -7,7 +7,7 @@
     
     <div class="mb-3 col-2">
         <label for="input-color" class="form-label">Color</label>
-        <input type="color" class="form-control form-control-color" name="color" value="" id="input_color">
+        <input type="color" class="form-control form-control-color" name="color" id="input-color">
         @include('admin.posts.includes.messageError', ['name' => 'color'])
     </div>
 </div>
