@@ -19,16 +19,32 @@
 </div>
 
 <div class="mb-3">
+    <label for="input-category" class="form-label d-block">Category</label>
+    <select name="category_id" id="input-category">
+        <option value="">no category</option>
+        @foreach ($categories as $category)
+            <option value="{{ old('category_id', $category->id) }}"
+                @isset( $post->category )
+                    {{ $category->id === $post->category->id ? 'selected' : '' }}
+                @endisset>
+                {{ $category->name }}
+            </option>
+        @endforeach
+    </select>
+    @include('admin.posts.includes.messageError', ['name' => 'category_id'])
+</div>
+
+<div class="mb-3">
     <label for="input-tags" class="form-label d-block">Tags</label>
     @foreach ($tags as $tag)
         <div class="form-check form-check-inline">
-            <input 
-            class="form-check-input" 
-            type="checkbox" 
-            value="{{ $tag->id }}" 
-            name="tags[]" 
-            id="input-tags"
-            {{ $post->tags->contains($tag) ? 'checked' : '' }}>
+            @if ($errors->any())
+                <input class="form-check-input" type="checkbox" value="{{ $tag->id }}" name="tags[]"
+                    id="input-tags" {{ in_array($tag->id, old('tags', [])) ? 'checked' : '' }}>
+            @else
+                <input class="form-check-input" type="checkbox" value="{{ $tag->id }}" name="tags[]"
+                    id="input-tags" {{ $post->tags->contains($tag) ? 'checked' : '' }}>
+            @endif
             <label class="form-check-label" for="input-tags">
                 {{ $tag->name }}
             </label>

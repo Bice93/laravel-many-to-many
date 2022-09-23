@@ -9,22 +9,10 @@ use App\Models\Tag;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class PostController extends Controller
 {
-
-    protected $validationRules = [
-        'title'=>'required|min:5|max:255|unique:posts',
-        'post_content' => 'required|min:10',
-        'post_image'=>'required|active_url',
-    ];
-
-    protected $validationMessages =  [
-        'title.required' => 'Inserisci il titolo!',
-        'post_content.required' => 'Inserisci la serie!',
-        'post_image.required' => 'Inserisci l\'immagine!',
-    ];
-
     /**
      * Display a listing of the resource.
      *
@@ -58,14 +46,28 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate($this->validationRules, $this->validationMessages);
         $data = $request->all();
+
+        $request->validate(
+            [
+            'title'=>['required', 'min:5', 'max:255',
+            Rule::unique('posts', 'title')->ignore($data['title'], 'title')],
+            'post_content' => 'required|min:10',
+            'post_image'=>'required|active_url',
+            ],
+            [
+            'title.required' => 'Inserisci il titolo!',
+            'post_content.required' => 'Inserisci la serie!',
+            'post_image.required' => 'Inserisci l\'immagine!',
+            ]
+        );
         $newPost = new Post();
         $newPost->title = $data['title'];
         $newPost->post_content = $data['post_content'];
         $newPost->post_image = $data['post_image'];
         $newPost->user_id = Auth::id();
         $newPost->post_date= new DateTime();
+        $newPost->category_id = $data['category_id'];
         //dd($newPost);
         $newPost-> save();
         $newPost->tags()->sync($data['tags']);
@@ -108,18 +110,31 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validatedData = $request->validate($this->validationRules, $this->validationMessages);
         $data = $request->all();
+        $request->validate(
+            [
+                'title'=>['required', 'min:5', 'max:255',
+                Rule::unique('posts', 'title')->ignore($data['title'], 'title')],
+                'post_content' => 'required|min:10',
+                'post_image'=>'required|active_url',
+            ],
+            [
+                'title.required' => 'Inserisci il titolo!',
+                'post_content.required' => 'Inserisci la serie!',
+                'post_image.required' => 'Inserisci l\'immagine!',
+                ]
+        );
         $post = Post::findOrFail($id);
         $post->title = $data['title'];
         $post->post_content = $data['post_content'];
         $post->post_image = $data['post_image'];
         $post->user_id = Auth::id();
         $post->post_date= new DateTime();
-        $post->tags()->sync($data['tags']);
+        $post->category_id = $data['category_id'];
         //dd($post);
         $post->save();
-         return redirect()->route('admin.posts.show', $post->id)->with('edited', $data['title']);
+        $post->tags()->sync($data['tags']);
+        return redirect()->route('admin.posts.show', $post->id)->with('edited', $data['title']);
 
     }
 
