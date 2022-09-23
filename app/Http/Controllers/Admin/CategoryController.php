@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\str;
 
 class CategoryController extends Controller
 {
@@ -27,7 +28,7 @@ class CategoryController extends Controller
     public function create()
     {
         $category = new Category();
-        return view('admin.categories.create');
+        return view('admin.categories.create', compact('category'));
     }
 
     /**
@@ -39,6 +40,10 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        $data['slug'] = Str::slug($data['name'], '-');
+        $newCategory = new Category();
+        $newCategory->fill($data);
+        $newCategory->save();
         return redirect()->route('admin.categories.index');
     }
 
