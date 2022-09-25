@@ -97,6 +97,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        return view('admin.categories.index', compact('categories'));
+        Category::destroy($id);
+        return redirect()->route('admin.categories.index');
     }
 }
