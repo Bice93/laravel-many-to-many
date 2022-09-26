@@ -52,9 +52,19 @@
     @endforeach
 </div>
 
-<div class="mb-3">
+{{-- <div class="mb-3">
     <label for="input-image" class="form-label">Image</label>
     <input type="text" name="post_image" value="{{ old('image_url', $post->post_image) }}" class="form-control"
+        id="input-image"> --}}
+    {{-- @error('image_url')
+        <div class="alert alert-danger mt-1 w-50 style_error_message">{{ $message }}</div>
+    @enderror --}}
+    {{-- @include('admin.posts.includes.messageError', ['name' => 'post_image']) --}}
+{{-- </div> --}}
+
+<div class="mb-3">
+    <label for="input-image" class="form-label">Image</label>
+    <input type="file" name="post_image" value="{{ old('post_image', $post->post_image) }}" class="form-control"
         id="input-image">
     {{-- @error('image_url')
         <div class="alert alert-danger mt-1 w-50 style_error_message">{{ $message }}</div>

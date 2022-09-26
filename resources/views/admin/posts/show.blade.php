@@ -18,7 +18,7 @@
                     </div>
                 @endif
                 <div class="card p-3">
-                    <img src="{{ $post->post_image }}" class="card-img-top" alt="{{ $post->title }}'s image">
+                    <img src=" {{ asset('storage/' . $post->post_image) }}" class="card-img-top" alt="{{ $post->title }}'s image">
                     <div class="card-body">
                         <h4>{{ $post->title }}</h4>
                         <h6>Written by: {{ $post->user->name }} | {{ $post->post_date }}</h6>
