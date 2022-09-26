@@ -18,7 +18,12 @@
                     </div>
                 @endif
                 <div class="card p-3">
-                    <img src=" {{ asset('storage/' . $post->post_image) }}" class="card-img-top" alt="{{ $post->title }}'s image">
+                    @if (filter_var($post->post_image, FILTER_VALIDATE_URL))
+                        <img src=" {{ $post->post_image }}" class="card-img-top" alt="{{ $post->title }}'s image">
+                    @else
+                        <img src=" {{ asset('storage/' . $post->post_image) }}" class="card-img-top"
+                            alt="{{ $post->title }}'s image">
+                    @endif
                     <div class="card-body">
                         <h4>{{ $post->title }}</h4>
                         <h6>Written by: {{ $post->user->name }} | {{ $post->post_date }}</h6>
