@@ -54,7 +54,7 @@ class PostController extends Controller
             'title'=>['required', 'min:5', 'max:255',
             Rule::unique('posts', 'title')->ignore($data['title'], 'title')],
             'post_content' => 'required|min:10',
-            'post_image'=>'required|active_url',
+            'post_image'=>'required|image|max:256',
             ],
             [
             'title.required' => 'Inserisci il titolo!',
@@ -118,7 +118,7 @@ class PostController extends Controller
                 'title'=>['required', 'min:5', 'max:255',
                 Rule::unique('posts', 'title')->ignore($data['title'], 'title')],
                 'post_content' => 'required|min:10',
-                'post_image'=>'required|active_url',
+                'post_image'=>'required|image|max:256',
             ],
             [
                 'title.required' => 'Inserisci il titolo!',
