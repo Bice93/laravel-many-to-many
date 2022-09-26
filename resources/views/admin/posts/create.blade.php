@@ -13,7 +13,7 @@
                         </ul>
                     </div>
                 @endif --}}
-                <form action="{{ route('admin.posts.store') }}" method="POST">
+                <form action="{{ route('admin.posts.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @include('admin.posts.includes.form')
                     <button type="submit" class="btn btn-primary">Create post</button>
